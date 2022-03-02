@@ -27,4 +27,7 @@ public void setAtm(ATMCard atm)
 	this.atm = atm;
 }
 
+// Overdraft (this will be a real number which will be initialized to 0.0 but can be updated by means of a dialog 
+// it only applies to current accounts)
+
 }
