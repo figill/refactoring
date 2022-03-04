@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.io.IOException;
 
 public class Menu extends JFrame {
 
@@ -248,7 +249,7 @@ public class Menu extends JFrame {
 						for (Customer aCustomer : customerList) {
 
 							if (aCustomer.getCustomerID().equals(customerID))// search customer list for matching
-																				// customer ID
+							// customer ID
 							{
 								found = true;
 								customer = aCustomer;
@@ -603,17 +604,17 @@ public class Menu extends JFrame {
 										while (loop) {
 											String interestString = JOptionPane.showInputDialog(f,
 													"Enter interest percentage you wish to apply: \n NOTE: Please enter a numerical value. (with no percentage sign) \n E.g: If you wish to apply 8% interest, enter '8'");// the
-																																																							// isNumeric
-																																																							// method
-																																																							// tests
-																																																							// to
-																																																							// see
-																																																							// if
-																																																							// the
-																																																							// string
-																																																							// entered
-																																																							// was
-																																																							// numeric.
+											// isNumeric
+											// method
+											// tests
+											// to
+											// see
+											// if
+											// the
+											// string
+											// entered
+											// was
+											// numeric.
 											if (isNumeric(interestString)) {
 
 												interest = Double.parseDouble(interestString);
@@ -824,7 +825,7 @@ public class Menu extends JFrame {
 				textPanel.add(scrollPane);
 
 				for (int a = 0; a < customerList.size(); a++)// For each customer, for each account, it displays each
-																// transaction.
+				// transaction.
 				{
 					for (int b = 0; b < customerList.get(a).getAccounts().size(); b++) {
 						acc = customerList.get(a).getAccounts().get(b);
@@ -1059,7 +1060,7 @@ public class Menu extends JFrame {
 								double balance = 0;
 								String number = String.valueOf("C" + (customerList.indexOf(customer) + 1) * 10
 										+ (customer.getAccounts().size() + 1));// this simple algorithm generates the
-																				// account number
+								// account number
 								ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
 								int randomPIN = (int) (Math.random() * 9000) + 1000;
 								String pin = String.valueOf(randomPIN);
@@ -1083,7 +1084,7 @@ public class Menu extends JFrame {
 								double balance = 0, interest = 0;
 								String number = String.valueOf("D" + (customerList.indexOf(customer) + 1) * 10
 										+ (customer.getAccounts().size() + 1));// this simple algorithm generates the
-																				// account number
+								// account number
 								ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
 
 								CustomerDepositAccount deposit = new CustomerDepositAccount(interest, number, balance,
@@ -1398,17 +1399,17 @@ public class Menu extends JFrame {
 							}
 							if (on == true) {
 								String balanceTest = JOptionPane.showInputDialog(f, "Enter amount you wish to lodge:");// the
-																														// isNumeric
-																														// method
-																														// tests
-																														// to
-																														// see
-																														// if
-																														// the
-																														// string
-																														// entered
-																														// was
-																														// numeric.
+								// isNumeric
+								// method
+								// tests
+								// to
+								// see
+								// if
+								// the
+								// string
+								// entered
+								// was
+								// numeric.
 								if (isNumeric(balanceTest)) {
 
 									balance = Double.parseDouble(balanceTest);
@@ -1486,8 +1487,8 @@ public class Menu extends JFrame {
 							if (on == true) {
 								String balanceTest = JOptionPane.showInputDialog(f,
 										"Enter amount you wish to withdraw (max 500):");// the isNumeric method tests to
-																						// see if the string entered was
-																						// numeric.
+								// see if the string entered was
+								// numeric.
 								if (isNumeric(balanceTest)) {
 
 									withdraw = Double.parseDouble(balanceTest);
