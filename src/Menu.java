@@ -151,7 +151,9 @@ public class Menu extends JFrame {
 									ArrayList<CustomerAccount> accounts = new ArrayList<CustomerAccount>();
 									Customer customer = new Customer(PPS, surname, firstName, DOB, CustomerID, password,
 											accounts);
-
+									
+									Customer customer1 = new Customer("1", "gill", "fiona", "19/11/1998", "ID1", "figill1",
+											accounts);
 									customerList.add(customer);
 
 									JOptionPane.showMessageDialog(f,
@@ -276,7 +278,7 @@ public class Menu extends JFrame {
 					while (loop2) {
 						Object customerPassword = JOptionPane.showInputDialog(f, "Enter Customer Password;");
 
-						if (!customer.getPassword().equals(customerPassword))// check if custoemr password is correct
+						if (!customer.getPassword().equals(customerPassword))// check if customer password is correct
 						{
 							int reply = JOptionPane.showConfirmDialog(null, null, "Incorrect password. Try again?",
 									JOptionPane.YES_NO_OPTION);
@@ -405,7 +407,7 @@ public class Menu extends JFrame {
 						}
 
 						if (found == false) {
-							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?",
+							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", //REFACTOR THIS
 									JOptionPane.YES_NO_OPTION);
 							if (reply == JOptionPane.YES_OPTION) {
 								loop = true;
@@ -535,7 +537,7 @@ public class Menu extends JFrame {
 						}
 
 						if (found == false) {
-							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?",
+							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", //REFACTOR THIS
 									JOptionPane.YES_NO_OPTION);
 							if (reply == JOptionPane.YES_OPTION) {
 								loop = true;
@@ -583,7 +585,7 @@ public class Menu extends JFrame {
 
 							if (customer.getAccounts().isEmpty()) {
 								JOptionPane.showMessageDialog(f,
-										"This customer has no accounts! \n The admin must add acounts to this customer.",
+										"This customer has no accounts! \n The admin must add acounts to this customer.", //REFACTOR THIS
 										"Oops!", JOptionPane.INFORMATION_MESSAGE);
 								f.dispose();
 								admin();
@@ -683,7 +685,7 @@ public class Menu extends JFrame {
 						}
 
 						if (found == false) {
-							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?",
+							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", //REFACTOR THIS
 									JOptionPane.YES_NO_OPTION);
 							if (reply == JOptionPane.YES_OPTION) {
 								loop = true;
@@ -1014,7 +1016,7 @@ public class Menu extends JFrame {
 				f.dispose();
 
 				if (customerList.isEmpty()) {
-					JOptionPane.showMessageDialog(f, "There are no customers yet!", "Oops!",
+					JOptionPane.showMessageDialog(f, "There are no customers yet!", "Oops!", //REFACTOR THIS
 							JOptionPane.INFORMATION_MESSAGE);
 					f.dispose();
 					admin();
@@ -1036,7 +1038,7 @@ public class Menu extends JFrame {
 						}
 
 						if (found == false) {
-							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?",
+							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", //REFACTOR THIS
 									JOptionPane.YES_NO_OPTION);
 							if (reply == JOptionPane.YES_OPTION) {
 								loop = true;
@@ -1109,8 +1111,8 @@ public class Menu extends JFrame {
 				boolean found = true, loop = true;
 
 				if (customerList.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "There are currently no customers to display. ");
-					dispose();
+					JOptionPane.showMessageDialog(null, "There are currently no customers to display. "); //REFACTOR THIS
+					dispose(); 
 					admin();
 				} else {
 					{
@@ -1127,7 +1129,7 @@ public class Menu extends JFrame {
 						}
 
 						if (found == false) {
-							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?",
+							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", //REFACTOR THIS
 									JOptionPane.YES_NO_OPTION);
 							if (reply == JOptionPane.YES_OPTION) {
 								loop = true;
@@ -1160,7 +1162,7 @@ public class Menu extends JFrame {
 
 				{
 					Object customerID = JOptionPane.showInputDialog(f,
-							"Customer ID of Customer from which you wish to delete an account");
+							"Customer ID of Customer from which you wish to delete an account"); //REFACTOR THIS
 
 					for (Customer aCustomer : customerList) {
 
@@ -1172,7 +1174,7 @@ public class Menu extends JFrame {
 					}
 
 					if (found == false) {
-						int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?",
+						int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", //REFACTOR THIS
 								JOptionPane.YES_NO_OPTION);
 						if (reply == JOptionPane.YES_OPTION) {
 							loop = true;
