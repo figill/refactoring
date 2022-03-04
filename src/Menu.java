@@ -1363,38 +1363,7 @@ public class Menu extends JFrame {
 
 							if (acc instanceof CustomerCurrentAccount) {
 								int count = 3;
-								int checkPin = ((CustomerCurrentAccount) acc).getAtm().getPin();
-								loop = true;
-
-								while (loop) {
-									if (count == 0) {
-										JOptionPane.showMessageDialog(f,
-												"Pin entered incorrectly 3 times. ATM card locked.", "Pin",
-												JOptionPane.INFORMATION_MESSAGE);
-										((CustomerCurrentAccount) acc).getAtm().setValid(false);
-										customer(e);
-										loop = false;
-										on = false;
-									}
-
-									String Pin = JOptionPane.showInputDialog(f, "Enter 4 digit PIN;");
-									int i = Integer.parseInt(Pin);
-
-									if (on) {
-										if (checkPin == i) {
-											loop = false;
-											JOptionPane.showMessageDialog(f, "Pin entry successful", "Pin",
-													JOptionPane.INFORMATION_MESSAGE);
-
-										} else {
-											count--;
-											JOptionPane.showMessageDialog(f,
-													"Incorrect pin. " + count + " attempts remaining.", "Pin",
-													JOptionPane.INFORMATION_MESSAGE);
-										}
-
-									}
-								}
+								checkPin(count);
 
 							}
 							if (on == true) {
@@ -1449,40 +1418,7 @@ public class Menu extends JFrame {
 
 							if (acc instanceof CustomerCurrentAccount) {
 								int count = 3;
-								int checkPin = ((CustomerCurrentAccount) acc).getAtm().getPin();
-								loop = true;
-
-								while (loop) {
-									if (count == 0) {
-										JOptionPane.showMessageDialog(f,
-												"Pin entered incorrectly 3 times. ATM card locked.", "Pin",
-												JOptionPane.INFORMATION_MESSAGE);
-										((CustomerCurrentAccount) acc).getAtm().setValid(false);
-										customer(e);
-										loop = false;
-										on = false;
-									}
-
-									String Pin = JOptionPane.showInputDialog(f, "Enter 4 digit PIN;");
-									int i = Integer.parseInt(Pin);
-
-									if (on) {
-										if (checkPin == i) {
-											loop = false;
-											JOptionPane.showMessageDialog(f, "Pin entry successful", "Pin",
-													JOptionPane.INFORMATION_MESSAGE);
-
-										} else {
-											count--;
-											JOptionPane.showMessageDialog(f,
-													"Incorrect pin. " + count + " attempts remaining.", "Pin",
-													JOptionPane.INFORMATION_MESSAGE);
-
-										}
-
-									}
-								}
-
+								checkPin(count);
 							}
 							if (on == true) {
 								String balanceTest = JOptionPane.showInputDialog(f,
@@ -1531,6 +1467,7 @@ public class Menu extends JFrame {
 
 						}
 					});
+					
 
 					returnButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent ae) {
@@ -1541,6 +1478,43 @@ public class Menu extends JFrame {
 				}
 			});
 		}
+	}
+	
+	public void checkPin(int count) {
+		int checkPin = ((CustomerCurrentAccount) acc).getAtm().getPin();
+		boolean loop = true;
+		boolean on = true;
+
+		while (loop) {
+			if (count == 0) {
+				JOptionPane.showMessageDialog(f,
+						"Pin entered incorrectly 3 times. ATM card locked.", "Pin",
+						JOptionPane.INFORMATION_MESSAGE);
+				((CustomerCurrentAccount) acc).getAtm().setValid(false);
+				customer(e);
+				loop = false;
+				on = false;
+			}
+
+			String Pin = JOptionPane.showInputDialog(f, "Enter 4 digit PIN;");
+			int i = Integer.parseInt(Pin);
+
+			if (on) {
+				if (checkPin == i) {
+					loop = false;
+					JOptionPane.showMessageDialog(f, "Pin entry successful", "Pin",
+							JOptionPane.INFORMATION_MESSAGE);
+
+				} else {
+					count--;
+					JOptionPane.showMessageDialog(f,
+							"Incorrect pin. " + count + " attempts remaining.", "Pin",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+
+			}
+		}
+		
 	}
 
 	public static boolean isNumeric(String str) // a method that tests if a string is numeric
