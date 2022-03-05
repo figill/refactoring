@@ -151,8 +151,8 @@ public class Menu extends JFrame {
 									Customer customer = new Customer(PPS, surname, firstName, DOB, CustomerID, password,
 											accounts);
 									
-									Customer customer1 = new Customer("1", "gill", "fiona", "19/11/1998", "ID1", "figill1",
-											accounts);
+//									Customer customer1 = new Customer("1", "gill", "fiona", "19/11/1998", "ID1", "figill1",
+//											accounts);
 									customerList.add(customer);
 
 									JOptionPane.showMessageDialog(f,
@@ -234,7 +234,7 @@ public class Menu extends JFrame {
 				}
 
 				// if user selects CUSTOMER
-				if (user.equals("Customer")) {
+				if (user.equals("Customer")) { 
 					boolean loop = true, loop2 = true;
 					boolean cont = false;
 					boolean found = false;
@@ -451,22 +451,12 @@ public class Menu extends JFrame {
 
 										if (acc instanceof CustomerDepositAccount) {
 
-											JOptionPane.showMessageDialog(f,
-													"25" + euro + " deposit account fee aplied.", "",
-													JOptionPane.INFORMATION_MESSAGE);
-											acc.setBalance(acc.getBalance() - 25);
-											JOptionPane.showMessageDialog(f, "New balance = " + acc.getBalance(),
-													"Success!", JOptionPane.INFORMATION_MESSAGE);
+											((CustomerDepositAccount) acc).getBalance(euro, f);
 										}
 
 										if (acc instanceof CustomerCurrentAccount) {
 
-											JOptionPane.showMessageDialog(f,
-													"15" + euro + " current account fee aplied.", "",
-													JOptionPane.INFORMATION_MESSAGE);
-											acc.setBalance(acc.getBalance() - 25);
-											JOptionPane.showMessageDialog(f, "New balance = " + acc.getBalance(),
-													"Success!", JOptionPane.INFORMATION_MESSAGE);
+											((CustomerCurrentAccount) acc).getBalance(euro, f);
 										}
 
 										f.dispose();

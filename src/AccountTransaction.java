@@ -17,9 +17,7 @@ public class AccountTransaction {
 	public AccountTransaction(String date, String type, double amount)
 	{
 		this.date = date;
-		this.type = type;
-		
-		
+		this.type = type;		
 		this.amount = amount;
 		
 	}
