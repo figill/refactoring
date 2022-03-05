@@ -1,20 +1,25 @@
 import java.awt.*;
 
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Menu extends JFrame implements IMenu {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Customer> customerList = new ArrayList<Customer>();
+	private static ArrayList<Customer> customerList = new ArrayList<Customer>();
 	private int position = 0;
-	private String password;
+
 	private Customer customer = null;
 	private CustomerAccount acc = new CustomerAccount();
 	JFrame f, f1;
@@ -27,7 +32,12 @@ public class Menu extends JFrame implements IMenu {
 
 	JPanel panel2;
 	JButton add;
-	String PPS, firstName, surname, DOB, CustomerID;
+	static String pps;
+	static String firstName;
+	static String surname;
+	static String dob;
+	static String customerID;
+	private static String password;
 
 	public static void main(String[] args) {
 		Menu driver = new Menu();
@@ -1103,7 +1113,7 @@ public class Menu extends JFrame implements IMenu {
 		}
 		return true;
 	}
-	
+
 	public void createCustomer() {
 		f.dispose();
 		f1 = new JFrame("Create New Customer");
@@ -1141,13 +1151,14 @@ public class Menu extends JFrame implements IMenu {
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				PPS = pPSTextField.getText();
+				pps = pPSTextField.getText();
 				firstName = firstNameTextField.getText();
 				surname = surnameTextField.getText();
-				DOB = dOBTextField.getText();
+				dob = dOBTextField.getText();
 				password = "";
+				customerID = "ID" + pps;
 
-				CustomerID = "ID" + PPS;
+				ArrayList<String> customersID = new ArrayList<String>();
 
 				add.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -1165,20 +1176,42 @@ public class Menu extends JFrame implements IMenu {
 								loop = false;
 							}
 						}
+						try {
+							File readFile = new File("");
+							Scanner scan = new Scanner(readFile);
+							while (scan.hasNextLine()) {
+								String data = scan.nextLine();
+								customersID.add(data);
+							}
 
-						ArrayList<CustomerAccount> accounts = new ArrayList<CustomerAccount>();
-						Customer customer = new Customer(PPS, surname, firstName, DOB, CustomerID, password,
-								accounts);
+							scan.close();
+						} catch (FileNotFoundException fileNotFound) {
+							fileNotFound.printStackTrace();
 
-						//									Customer customer1 = new Customer("1", "gill", "fiona", "19/11/1998", "ID1", "figill1",
-						//											accounts);
-						customerList.add(customer);
+						}
 
-						JOptionPane.showMessageDialog(f,
-								"CustomerID = " + CustomerID + "\n Password = " + password,
-								"Customer created.", JOptionPane.INFORMATION_MESSAGE);
-						menuStart();
-						f.dispose();
+						if (!customersID.contains(customerID)) {
+							ArrayList<CustomerAccount> accounts = new ArrayList<CustomerAccount>();
+							Customer customer = new Customer(pps, surname, firstName, dob, customerID , password, accounts);
+							customerList.add(customer);
+							try {
+								FileWriter myWriter = new FileWriter("", true);
+								myWriter.write(customer.getCustomerID() + "\n");
+								myWriter.close();
+								FileWriter details = new FileWriter("", true);
+								details.write(customer.toString());
+								details.close();
+								System.out.println("Successfully wrote to the file.");
+
+							} catch (IOException exception) {
+								System.out.println("An error occurred.");
+								exception.printStackTrace();
+							}
+							menuStart();
+						} else {
+
+						}
+
 					}
 				});
 			}
@@ -1198,9 +1231,9 @@ public class Menu extends JFrame implements IMenu {
 		content.add(panel2, BorderLayout.SOUTH);
 
 		f1.setVisible(true);
-		
+
 	}
-	
+
 	public void loginAdministrator() {
 		boolean loop = true, loop2 = true;
 		boolean cont = false;
@@ -1249,9 +1282,60 @@ public class Menu extends JFrame implements IMenu {
 			loop = false;
 			admin();
 		}
-	
+
 	}
-	
+
+	private static void readFromFile() {
+		ArrayList<CustomerAccount> accounts = new ArrayList<CustomerAccount>();
+
+		// Read from file
+		try {
+			Scanner file = new Scanner(new File("C:/refactoring/customerInfo.txt"));
+			while (file.hasNextLine()) {
+				String data = file.nextLine();
+				if (data.contains("PPS number")) {
+					String[] split = data.split("= ");
+					pps = split[1];
+				} else if (data.contains("Surname")) {
+					String[] split1 = data.split("= ");
+					surname = split1[1];
+				} else if (data.contains("First Name")) {
+					String[] split2 = data.split("= ");
+					firstName = split2[1];
+				} else if (data.contains("Date of Birth")) {
+					String[] split3 = data.split("= ");
+					dob = split3[1];
+				} else if (data.contains("Customer ID")) {
+					String[] split4 = data.split("= ");
+					customerID = split4[1];
+				} else if (data.contains("Password")) {
+					String[] split5 = data.split("= ");
+					password = split5[1];
+				}
+
+				if (!pps.isEmpty() && !surname.isEmpty() && !firstName.isEmpty() && !dob.isEmpty()
+						&& !customerID.isEmpty() && !password.isEmpty()) {
+					customerList.add(new Customer(pps, surname, firstName, dob, customerID, password, accounts));
+
+					pps = "";
+					surname = "";
+					firstName = "";
+					dob = "";
+					customerID = "";
+					password = "";
+
+				} else {
+					// do nothing
+				}
+
+			}
+			file.close();
+		} catch (FileNotFoundException fileNotFound) {
+			fileNotFound.printStackTrace();
+		}
+
+	}
+
 	public void loginCustomer() {
 		boolean loop = true, loop2 = true;
 		boolean cont = false;
@@ -1312,7 +1396,7 @@ public class Menu extends JFrame implements IMenu {
 			loop = false;
 			customer(customer);
 		}
-		
+
 	}
 
 	@Override
@@ -1441,7 +1525,7 @@ public class Menu extends JFrame implements IMenu {
 
 	}
 
-	
+
 
 
 }
