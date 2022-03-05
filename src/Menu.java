@@ -84,8 +84,7 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				String user = userType.getSelection().getActionCommand();
 
-				// if user selects NEW
-				// CUSTOMER--------------------------------------------------------------------------------------
+				// if user selects NEW CUSTOMER
 				if (user.equals("New Customer")) {
 					f.dispose();
 					f1 = new JFrame("Create New Customer");
@@ -183,10 +182,7 @@ public class Menu extends JFrame {
 
 				}
 
-				// ------------------------------------------------------------------------------------------------------------------
-
-				// if user select
-				// ADMIN----------------------------------------------------------------------------------------------
+				// if user select ADMIN
 				if (user.equals("Administrator")) {
 					boolean loop = true, loop2 = true;
 					boolean cont = false;
@@ -236,10 +232,8 @@ public class Menu extends JFrame {
 						admin();
 					}
 				}
-				// ----------------------------------------------------------------------------------------------------------------
 
 				// if user selects CUSTOMER
-				// ----------------------------------------------------------------------------------------
 				if (user.equals("Customer")) {
 					boolean loop = true, loop2 = true;
 					boolean cont = false;
@@ -250,8 +244,7 @@ public class Menu extends JFrame {
 
 						for (Customer aCustomer : customerList) {
 
-							if (aCustomer.getCustomerID().equals(customerID))// search customer list for matching
-							// customer ID
+							if (aCustomer.getCustomerID().equals(customerID))// search customer list for matching customer ID
 							{
 								found = true;
 								customer = aCustomer;
@@ -301,7 +294,6 @@ public class Menu extends JFrame {
 						customer(customer);
 					}
 				}
-				// -----------------------------------------------------------------------------------------------------------------------
 			}
 		});
 		f.setVisible(true);
@@ -376,7 +368,7 @@ public class Menu extends JFrame {
 		content.add(navigatePanel);
 		content.add(summaryPanel);
 		content.add(deleteCustomerPanel);
-		// content.add(deleteAccountPanel);
+		content.add(deleteAccountPanel);
 		content.add(returnPanel);
 
 		bankChargesButton.addActionListener(new ActionListener() {
@@ -582,17 +574,7 @@ public class Menu extends JFrame {
 										while (loop) {
 											String interestString = JOptionPane.showInputDialog(f,
 													"Enter interest percentage you wish to apply: \n NOTE: Please enter a numerical value. (with no percentage sign) \n E.g: If you wish to apply 8% interest, enter '8'");// the
-											// isNumeric
-											// method
-											// tests
-											// to
-											// see
-											// if
-											// the
-											// string
-											// entered
-											// was
-											// numeric.
+											
 											if (isNumeric(interestString)) {
 
 												interest = Double.parseDouble(interestString);
@@ -658,16 +640,7 @@ public class Menu extends JFrame {
 						}
 
 						if (found == false) {
-							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", //REFACTOR THIS
-									JOptionPane.YES_NO_OPTION);
-							if (reply == JOptionPane.YES_OPTION) {
-								loop = true;
-							} else if (reply == JOptionPane.NO_OPTION) {
-								f.dispose();
-								loop = false;
-
-								admin();
-							}
+							userNotFound(loop);
 						} else {
 							loop = false;
 						}
@@ -723,7 +696,6 @@ public class Menu extends JFrame {
 					customerIDTextField.setText(customer.getCustomerID());
 					passwordTextField.setText(customer.getPassword());
 
-					// JLabel label1 = new JLabel("Edit customer details below. The save");
 
 					JButton saveButton = new JButton("Save");
 					JButton cancelButton = new JButton("Exit");
@@ -749,7 +721,7 @@ public class Menu extends JFrame {
 							customer.setSurname(surnameTextField.getText());
 							customer.setPPS(pPSTextField.getText());
 							customer.setDOB(dOBTextField.getText());
-							customer.setCustomerID(customerIDTextField.getText());
+							customer.setCustomerID(customerIDTextField.getText()); //add to customer class ?
 							customer.setPassword(passwordTextField.getText());
 
 							JOptionPane.showMessageDialog(null, "Changes Saved.");
@@ -799,17 +771,14 @@ public class Menu extends JFrame {
 				JScrollPane scrollPane = new JScrollPane(textArea);
 				textPanel.add(scrollPane);
 
-				for (int a = 0; a < customerList.size(); a++)// For each customer, for each account, it displays each
-				// transaction.
+				for (int a = 0; a < customerList.size(); a++)// For each customer, for each account, it displays each  transaction.
 				{
 					for (int b = 0; b < customerList.get(a).getAccounts().size(); b++) {
 						acc = customerList.get(a).getAccounts().get(b);
 						for (int c = 0; c < customerList.get(a).getAccounts().get(b).getTransactionList().size(); c++) {
 
 							textArea.append(acc.getTransactionList().get(c).toString());
-							// Int total = acc.getTransactionList().get(c).getAmount(); //I was going to use
-							// this to keep a running total but I couldnt get it working.
-
+							
 						}
 					}
 				}
@@ -819,9 +788,7 @@ public class Menu extends JFrame {
 
 				Container content = f.getContentPane();
 				content.setLayout(new GridLayout(1, 1));
-				// content.add(label1);
 				content.add(textPanel);
-				// content.add(returnPanel);
 
 				returnButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent ae) {
@@ -991,8 +958,6 @@ public class Menu extends JFrame {
 							
 						} else {
 							loop = false;
-							// a combo box in an dialog box that asks the admin what type of account they
-							// wish to create (deposit/current)
 							String[] choices = { "Current Account", "Deposit Account" };
 							String account = (String) JOptionPane.showInputDialog(null, "Please choose account type",
 									"Account Type", JOptionPane.QUESTION_MESSAGE, null, choices, choices[1]);
@@ -1011,7 +976,7 @@ public class Menu extends JFrame {
 								ATMCard atm = new ATMCard(randomPIN, valid);
 
 								CustomerCurrentAccount current = new CustomerCurrentAccount(atm, number, balance,
-										transactionList);
+										transactionList); // add to current class ?
 
 								customer.getAccounts().add(current);
 								JOptionPane.showMessageDialog(f, "Account number = " + number + "\n PIN = " + pin,
@@ -1026,12 +991,11 @@ public class Menu extends JFrame {
 
 								double balance = 0, interest = 0;
 								String number = String.valueOf("D" + (customerList.indexOf(customer) + 1) * 10
-										+ (customer.getAccounts().size() + 1));// this simple algorithm generates the
-								// account number
+										+ (customer.getAccounts().size() + 1));// this simple algorithm generates the  account number
 								ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
 
 								CustomerDepositAccount deposit = new CustomerDepositAccount(interest, number, balance,
-										transactionList);
+										transactionList); //add to deposit class ?
 
 								customer.getAccounts().add(deposit);
 								JOptionPane.showMessageDialog(f, "Account number = " + number, "Account created.",
@@ -1106,9 +1070,7 @@ public class Menu extends JFrame {
 					if (found == false) {
 						userNotFound(loop);
 					} else {
-						// Here I would make the user select a an account to delete from a combo box. If
-						// the account had a balance of 0 then it would be deleted. (I do not have time
-						// to do this)
+						
 					}
 
 				}
@@ -1265,9 +1227,9 @@ public class Menu extends JFrame {
 
 							Container content = f.getContentPane();
 							content.setLayout(new GridLayout(1, 1));
-							// content.add(label1);
+							content.add(label1);
 							content.add(textPanel);
-							// content.add(returnPanel);
+							content.add(returnPanel);
 
 							returnButton.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent ae) {
@@ -1290,18 +1252,8 @@ public class Menu extends JFrame {
 
 							}
 							if (on == true) {
-								String balanceTest = JOptionPane.showInputDialog(f, "Enter amount you wish to lodge:");// the
-								// isNumeric
-								// method
-								// tests
-								// to
-								// see
-								// if
-								// the
-								// string
-								// entered
-								// was
-								// numeric.
+								String balanceTest = JOptionPane.showInputDialog(f, "Enter amount you wish to lodge:");
+								
 								if (isNumeric(balanceTest)) {
 
 									balance = Double.parseDouble(balanceTest);
@@ -1331,9 +1283,7 @@ public class Menu extends JFrame {
 							}
 							if (on == true) {
 								String balanceTest = JOptionPane.showInputDialog(f,
-										"Enter amount you wish to withdraw (max 500):");// the isNumeric method tests to
-								// see if the string entered was
-								// numeric.
+										"Enter amount you wish to withdraw (max 500):");
 								if (isNumeric(balanceTest)) {
 
 									withdraw = Double.parseDouble(balanceTest);
@@ -1415,8 +1365,6 @@ public class Menu extends JFrame {
 		if( i == 0) {
 			String euro = "\u20ac";
 			acc.setBalance(acc.getBalance() + a);
-			// String date = new
-			// SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 			Date date = new Date();
 			String date2 = date.toString();
 			String type = "Lodgement";
@@ -1435,9 +1383,6 @@ public class Menu extends JFrame {
 			
 			String euro = "\u20ac";
 			acc.setBalance(acc.getBalance() - a);
-			// recording transaction:
-			// String date = new
-			// SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 			Date date = new Date();
 			String date2 = date.toString();
 
