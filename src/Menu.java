@@ -543,7 +543,7 @@ public class Menu extends JFrame {
 
 							if (customer.getAccounts().isEmpty()) {
 								JOptionPane.showMessageDialog(f,
-										"This customer has no accounts! \n The admin must add acounts to this customer.", //REFACTOR THIS
+										"This customer has no accounts! \n The admin must add acounts to this customer.", 
 										"Oops!", JOptionPane.INFORMATION_MESSAGE);
 								f.dispose();
 								admin();
@@ -711,7 +711,8 @@ public class Menu extends JFrame {
 							customer.setSurname(surnameTextField.getText());
 							customer.setPPS(pPSTextField.getText());
 							customer.setDOB(dOBTextField.getText());
-							customer.setCustomerID(customerIDTextField.getText()); //add to customer class ?
+							customer.setCustomerID(customerIDTextField.getText()); 
+							
 							customer.setPassword(passwordTextField.getText());
 
 							JOptionPane.showMessageDialog(null, "Changes Saved.");
