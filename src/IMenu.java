@@ -2,7 +2,6 @@ import javax.swing.JFrame;
 
 public interface IMenu {
 
-	public void displayCustomerInfo(int p);
 	public JFrame frame(String type);
 	public void noCustomers();
 	public void userNotFound(boolean loop);
