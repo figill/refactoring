@@ -910,12 +910,7 @@ public class Menu extends JFrame {
 					first.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent ae) {
 							position = 0;
-							firstNameTextField.setText(customerList.get(0).getFirstName());
-							surnameTextField.setText(customerList.get(0).getSurname());
-							pPSTextField.setText(customerList.get(0).getPPS());
-							dOBTextField.setText(customerList.get(0).getDOB());
-							customerIDTextField.setText(customerList.get(0).getCustomerID());
-							passwordTextField.setText(customerList.get(0).getPassword());
+							displayCustomerInfo(position);
 						}
 					});
 
@@ -927,12 +922,7 @@ public class Menu extends JFrame {
 							} else {
 								position = position - 1;
 
-								firstNameTextField.setText(customerList.get(position).getFirstName());
-								surnameTextField.setText(customerList.get(position).getSurname());
-								pPSTextField.setText(customerList.get(position).getPPS());
-								dOBTextField.setText(customerList.get(position).getDOB());
-								customerIDTextField.setText(customerList.get(position).getCustomerID());
-								passwordTextField.setText(customerList.get(position).getPassword());
+								displayCustomerInfo(position);
 							}
 						}
 					});
@@ -945,12 +935,7 @@ public class Menu extends JFrame {
 							} else {
 								position = position + 1;
 
-								firstNameTextField.setText(customerList.get(position).getFirstName());
-								surnameTextField.setText(customerList.get(position).getSurname());
-								pPSTextField.setText(customerList.get(position).getPPS());
-								dOBTextField.setText(customerList.get(position).getDOB());
-								customerIDTextField.setText(customerList.get(position).getCustomerID()); //REFACTOR THIS
-								passwordTextField.setText(customerList.get(position).getPassword());
+								displayCustomerInfo(position);
 							}
 
 						}
@@ -961,12 +946,7 @@ public class Menu extends JFrame {
 
 							position = customerList.size() - 1;
 
-							firstNameTextField.setText(customerList.get(position).getFirstName());
-							surnameTextField.setText(customerList.get(position).getSurname());
-							pPSTextField.setText(customerList.get(position).getPPS());
-							dOBTextField.setText(customerList.get(position).getDOB());
-							customerIDTextField.setText(customerList.get(position).getCustomerID());
-							passwordTextField.setText(customerList.get(position).getPassword());
+							displayCustomerInfo(position);
 						}
 					});
 
@@ -1477,7 +1457,7 @@ public class Menu extends JFrame {
 	}
 	
 	public void userNotFound(boolean loop) {
-		int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", //REFACTOR THIS
+		int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", 
 				JOptionPane.YES_NO_OPTION);
 		if (reply == JOptionPane.YES_OPTION) {
 			loop = true;
@@ -1491,11 +1471,20 @@ public class Menu extends JFrame {
 	}
 	
 	public void noCustomers() {
-		JOptionPane.showMessageDialog(f, "There are no customers yet!", "Oops!", //REFACTOR THIS
+		JOptionPane.showMessageDialog(f, "There are no customers yet!", "Oops!", 
 				JOptionPane.INFORMATION_MESSAGE);
 		f.dispose();
 		admin();
 		
+	}
+	
+	public void displayCustomerInfo(int p) {
+		firstNameTextField.setText(customerList.get(p).getFirstName());
+		surnameTextField.setText(customerList.get(p).getSurname());
+		pPSTextField.setText(customerList.get(p).getPPS());
+		dOBTextField.setText(customerList.get(p).getDOB());
+		customerIDTextField.setText(customerList.get(p).getCustomerID());
+		passwordTextField.setText(customerList.get(p).getPassword());
 	}
 
 	public static boolean isNumeric(String str) // a method that tests if a string is numeric
