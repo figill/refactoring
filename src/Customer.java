@@ -11,17 +11,6 @@ public class Customer {
 	
 	ArrayList<CustomerAccount> accounts = new ArrayList<CustomerAccount> ();
 
-	//Blank constructor
-	public Customer()
-	{
-		this.pps = "";
-		this.surname = "";
-		this.firstName = "";
-		this.dob = "";
-		this.customerID = "";
-		this.password = "";
-		this.accounts = null;
-	}
 	
 	//Constructor with details
 	public Customer(String pps, String surname, String firstName, String dob, String customerID, String password, ArrayList<CustomerAccount> accounts)

@@ -24,12 +24,10 @@ public class Menu extends JFrame implements IMenu {
 	Customer cust;
 	
 	JFrame f, f1;
-	JLabel firstNameLabel, surnameLabel, pPPSLabel, dOBLabel;
-	JTextField firstNameTextField, surnameTextField, pPSTextField, dOBTextField;
-	JLabel customerIDLabel, passwordLabel;
+	JLabel firstNameLabel, surnameLabel, pPPSLabel, dOBLabel, customerIDLabel, passwordLabel;
+	JTextField firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField;
 	JPanel panel2;
-	JButton add;
-	JTextField customerIDTextField, passwordTextField;
+	JButton addButton;
 	Container content;
 	
 	static String pps;
@@ -42,16 +40,10 @@ public class Menu extends JFrame implements IMenu {
 	public static void main(String[] args) {
 		Menu driver = new Menu();
 		readFromFile();
-		driver.menuStart();
+		driver.userMenu();
 	}
 
-	public void menuStart() {
-		/*
-		 * The menuStart method asks the user if they are a new customer, an existing
-		 * customer or an admin. It will then start the create customer process if they
-		 * are a new customer, or will ask them to log in if they are an existing
-		 * customer or admin.
-		 */
+	public void userMenu() {
 
 		f = frame("User Type");
 		f.setVisible(true);
@@ -104,7 +96,7 @@ public class Menu extends JFrame implements IMenu {
 		f.setVisible(true);
 	}
 
-	public void admin() {
+	public void adminMenu() {
 		dispose();
 
 		f = frame("Administrator Menu");
@@ -223,7 +215,7 @@ public class Menu extends JFrame implements IMenu {
 										"This customer has no accounts! \n The admin must add acounts to this customer.",
 										"Oops!", JOptionPane.INFORMATION_MESSAGE);
 								f.dispose();
-								admin();
+								adminMenu();
 							} else {
 
 								for (int i = 0; i < customer.getAccounts().size(); i++) {
@@ -247,14 +239,14 @@ public class Menu extends JFrame implements IMenu {
 										}
 
 										f.dispose();
-										admin();
+										adminMenu();
 									}
 								});
 
 								returnButton.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent ae) {
 										f.dispose();
-										menuStart();
+										userMenu();
 									}
 								});
 
@@ -323,7 +315,7 @@ public class Menu extends JFrame implements IMenu {
 										"This customer has no accounts! \n The admin must add acounts to this customer.",
 										"Oops!", JOptionPane.INFORMATION_MESSAGE);
 								f.dispose();
-								admin();
+								adminMenu();
 							} else {
 
 								for (int i = 0; i < customer.getAccounts().size(); i++) {
@@ -364,14 +356,14 @@ public class Menu extends JFrame implements IMenu {
 										}
 
 										f.dispose();
-										admin();
+										adminMenu();
 									}
 								});
 
 								returnButton.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent ae) {
 										f.dispose();
-										menuStart();
+										userMenu();
 									}
 								});
 
@@ -386,9 +378,8 @@ public class Menu extends JFrame implements IMenu {
 		editCustomerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 
-				boolean loop = true;
+				boolean loop = true,  found = false;
 
-				boolean found = false;
 
 				if (customerList.isEmpty()) {
 					noCustomers();
@@ -418,14 +409,8 @@ public class Menu extends JFrame implements IMenu {
 					f.dispose();
 
 					f.dispose();
-					f = new JFrame("Administrator Menu");
-					f.setSize(400, 300);
-					f.setLocation(200, 200);
-					f.addWindowListener(new WindowAdapter() {
-						public void windowClosing(WindowEvent we) {
-							System.exit(0);
-						}
-					});
+					f = frame("Administrator Menu");
+					
 
 					firstNameLabel = new JLabel("First Name:", SwingConstants.LEFT);
 					surnameLabel = new JLabel("Surname:", SwingConstants.LEFT);
@@ -500,7 +485,7 @@ public class Menu extends JFrame implements IMenu {
 						public void actionPerformed(ActionEvent ae) {
 							f.dispose();
 
-							admin();
+							adminMenu();
 						}
 					});
 				}
@@ -555,7 +540,7 @@ public class Menu extends JFrame implements IMenu {
 				returnButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent ae) {
 						f.dispose();
-						admin();
+						adminMenu();
 					}
 				});
 			}
@@ -647,7 +632,6 @@ public class Menu extends JFrame implements IMenu {
 						public void actionPerformed(ActionEvent ae) {
 
 							if (position < 1) {
-								// don't do anything
 							} else {
 								position = position - 1;
 
@@ -660,7 +644,6 @@ public class Menu extends JFrame implements IMenu {
 						public void actionPerformed(ActionEvent ae) {
 
 							if (position == customerList.size() - 1) {
-								// don't do anything
 							} else {
 								position = position + 1;
 
@@ -682,7 +665,7 @@ public class Menu extends JFrame implements IMenu {
 					cancel.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent ae) {
 							dispose();
-							admin();
+							adminMenu();
 						}
 					});
 					setContentPane(content);
@@ -699,9 +682,8 @@ public class Menu extends JFrame implements IMenu {
 				if (customerList.isEmpty()) {
 					noCustomers();
 				} else {
-					boolean loop = true;
+					boolean loop = true, found = false;
 
-					boolean found = false;
 
 					while (loop) {
 						Object customerID = JOptionPane.showInputDialog(f,
@@ -746,7 +728,7 @@ public class Menu extends JFrame implements IMenu {
 										"Account created.", JOptionPane.INFORMATION_MESSAGE);
 
 								f.dispose();
-								admin();
+								adminMenu();
 							}
 
 							if (account.equals("Deposit Account")) {
@@ -766,7 +748,7 @@ public class Menu extends JFrame implements IMenu {
 										JOptionPane.INFORMATION_MESSAGE);
 
 								f.dispose();
-								admin();
+								adminMenu();
 							}
 
 						}
@@ -844,12 +826,12 @@ public class Menu extends JFrame implements IMenu {
 		returnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				f.dispose();
-				menuStart();
+				userMenu();
 			}
 		});
 	}
 
-	public void customer(Customer cust1) {
+	public void customerMenu(Customer cust1) {
 		cust = cust1;
 		f = frame("Customer Menu");
 		f.setVisible(true);
@@ -859,7 +841,7 @@ public class Menu extends JFrame implements IMenu {
 					"This customer does not have any accounts yet. \n An admin must create an account for this customer \n for them to be able to use customer functionality. ",
 					"Oops!", JOptionPane.INFORMATION_MESSAGE);
 			f.dispose();
-			menuStart();
+			userMenu();
 		} else {
 			JPanel buttonPanel = new JPanel();
 			JPanel boxPanel = new JPanel();
@@ -894,7 +876,7 @@ public class Menu extends JFrame implements IMenu {
 			returnButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
 					f.dispose();
-					menuStart();
+					userMenu();
 				}
 			});
 
@@ -947,9 +929,7 @@ public class Menu extends JFrame implements IMenu {
 							JPanel returnPanel = new JPanel();
 							JButton returnButton = new JButton("Return");
 							returnPanel.add(returnButton);
-
 							JPanel textPanel = new JPanel();
-
 							textPanel.setLayout(new BorderLayout());
 							JTextArea textArea = new JTextArea(40, 20);
 							textArea.setEditable(false);
@@ -977,7 +957,7 @@ public class Menu extends JFrame implements IMenu {
 							returnButton.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent ae) {
 									f.dispose();
-									customer(cust);
+									customerMenu(cust);
 								}
 							});
 						}
@@ -985,7 +965,6 @@ public class Menu extends JFrame implements IMenu {
 
 					lodgementButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent ae) {
-							boolean loop = true;
 							boolean on = true;
 							double balance = 0;
 
@@ -1000,7 +979,6 @@ public class Menu extends JFrame implements IMenu {
 								if (isNumeric(balanceTest)) {
 
 									balance = Double.parseDouble(balanceTest);
-									loop = false;
 
 								} else {
 									JOptionPane.showMessageDialog(f, "You must enter a numerical value!", "Oops!",
@@ -1016,7 +994,6 @@ public class Menu extends JFrame implements IMenu {
 
 					withdrawButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent ae) {
-							boolean loop = true;
 							boolean on = true;
 							double withdraw = 0;
 
@@ -1030,7 +1007,7 @@ public class Menu extends JFrame implements IMenu {
 								if (isNumeric(balanceTest)) {
 
 									withdraw = Double.parseDouble(balanceTest);
-									loop = false;
+								
 
 								} else {
 									JOptionPane.showMessageDialog(f, "You must enter a numerical value!", "Oops!",
@@ -1057,7 +1034,7 @@ public class Menu extends JFrame implements IMenu {
 					returnButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent ae) {
 							f.dispose();
-							menuStart();
+							userMenu();
 						}
 					});
 				}
@@ -1077,14 +1054,7 @@ public class Menu extends JFrame implements IMenu {
 
 	public void createCustomer() {
 		f.dispose();
-		f1 = new JFrame("Create New Customer");
-		f1.setSize(400, 300);
-		f1.setLocation(200, 200);
-		f1.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent we) {
-				System.exit(0);
-			}
-		});
+		f1 = frame("Create New Customer");
 		Container content = f1.getContentPane();
 		content.setLayout(new BorderLayout());
 
@@ -1107,9 +1077,9 @@ public class Menu extends JFrame implements IMenu {
 		panel.add(dOBTextField);
 
 		panel2 = new JPanel();
-		add = new JButton("Add");
+		addButton = new JButton("Add");
 
-		add.addActionListener(new ActionListener() {
+		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				pps = pPSTextField.getText();
@@ -1121,7 +1091,7 @@ public class Menu extends JFrame implements IMenu {
 
 				ArrayList<String> customersID = new ArrayList<String>();
 
-				add.addActionListener(new ActionListener() {
+				addButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						f1.dispose();
 
@@ -1168,7 +1138,7 @@ public class Menu extends JFrame implements IMenu {
 								System.out.println("An error occurred.");
 								exception.printStackTrace();
 							}
-							menuStart();
+							userMenu();
 						} else {
 
 						}
@@ -1181,11 +1151,11 @@ public class Menu extends JFrame implements IMenu {
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				f1.dispose();
-				menuStart();
+				userMenu();
 			}
 		});
 
-		panel2.add(add);
+		panel2.add(addButton);
 		panel2.add(cancel);
 
 		content.add(panel, BorderLayout.CENTER);
@@ -1211,7 +1181,7 @@ public class Menu extends JFrame implements IMenu {
 					f1.dispose();
 					loop = false;
 					loop2 = false;
-					menuStart();
+					userMenu();
 				}
 			} else {
 				loop = false;
@@ -1230,7 +1200,7 @@ public class Menu extends JFrame implements IMenu {
 				} else if (reply == JOptionPane.NO_OPTION) {
 					f1.dispose();
 					loop2 = false;
-					menuStart();
+					userMenu();
 				}
 			} else {
 				loop2 = false;
@@ -1241,7 +1211,7 @@ public class Menu extends JFrame implements IMenu {
 		if (cont) {
 			f.dispose();
 			loop = false;
-			admin();
+			adminMenu();
 		}
 
 	}
@@ -1313,7 +1283,7 @@ public class Menu extends JFrame implements IMenu {
 				} else if (reply == JOptionPane.NO_OPTION) {
 					f.dispose();
 					loop = false;
-					menuStart();
+					userMenu();
 				}
 			} else {
 				loop = false;
@@ -1326,7 +1296,6 @@ public class Menu extends JFrame implements IMenu {
 
 	@Override
 	public JFrame frame(String type) {
-		// TODO Auto-generated method stub
 		JFrame f = new JFrame(type);
 		f.setSize(600, 400);
 		f.setLocation(300, 300);
@@ -1340,7 +1309,7 @@ public class Menu extends JFrame implements IMenu {
 
 	public void displayCustomerInfo(JTextField firstNameTextField, JTextField surnameTextField, JTextField pPSTextField,
 			JTextField dOBTextField, JTextField customerIDTextField, JTextField passwordTextField, int p) {
-		// TODO Auto-generated method stub
+	
 		firstNameTextField.setText(customerList.get(p).getFirstName());
 		surnameTextField.setText(customerList.get(p).getSurname());
 		pPSTextField.setText(customerList.get(p).getPPS());
@@ -1352,16 +1321,14 @@ public class Menu extends JFrame implements IMenu {
 
 	@Override
 	public void noCustomers() {
-		// TODO Auto-generated method stub
 		JOptionPane.showMessageDialog(f, "There are no customers yet!", "Oops!", JOptionPane.INFORMATION_MESSAGE);
 		f.dispose();
-		admin();
+		adminMenu();
 
 	}
 
 	@Override
 	public void userNotFound(boolean loop) {
-		// TODO Auto-generated method stub
 		int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
 		if (reply == JOptionPane.YES_OPTION) {
 			loop = true;
@@ -1369,14 +1336,13 @@ public class Menu extends JFrame implements IMenu {
 			f.dispose();
 			loop = false;
 
-			admin();
+			adminMenu();
 		}
 
 	}
 
 	@Override
 	public void displayTransaction(double a, int i) {
-		// TODO Auto-generated method stub
 		if (i == 0) {
 			String euro = "\u20ac";
 			customerAccount.setBalance(customerAccount.getBalance() + a);
@@ -1416,7 +1382,6 @@ public class Menu extends JFrame implements IMenu {
 
 	@Override
 	public void checkPin(int count) {
-		// TODO Auto-generated method stub
 		int checkPin = ((CustomerCurrentAccount) customerAccount).getAtm().getPin();
 		boolean loop = true;
 		boolean on = true;
@@ -1426,7 +1391,7 @@ public class Menu extends JFrame implements IMenu {
 				JOptionPane.showMessageDialog(f, "Pin entered incorrectly 3 times. ATM card locked.", "Pin",
 						JOptionPane.INFORMATION_MESSAGE);
 				((CustomerCurrentAccount) customerAccount).getAtm().setValid(false);
-				customer(cust);
+				customerMenu(cust);
 				loop = false;
 				on = false;
 			}
@@ -1471,7 +1436,7 @@ public class Menu extends JFrame implements IMenu {
 					} else if (reply == JOptionPane.NO_OPTION) {
 						f.dispose();
 						
-						menuStart();
+						userMenu();
 					}
 				} else {
 					
@@ -1481,7 +1446,7 @@ public class Menu extends JFrame implements IMenu {
 				if (cont) {
 					f.dispose();
 					
-					customer(customer);
+					customerMenu(customer);
 				}
 			}
 		}
