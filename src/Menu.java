@@ -19,19 +19,19 @@ public class Menu extends JFrame implements IMenu {
 	private static final long serialVersionUID = 1L;
 	private static ArrayList<Customer> customerList = new ArrayList<Customer>();
 	private int position = 0;
-
 	private Customer customer = null;
 	private CustomerAccount acc = new CustomerAccount();
+	Customer e;
+	
 	JFrame f, f1;
 	JLabel firstNameLabel, surnameLabel, pPPSLabel, dOBLabel;
 	JTextField firstNameTextField, surnameTextField, pPSTextField, dOBTextField;
 	JLabel customerIDLabel, passwordLabel;
-	JTextField customerIDTextField, passwordTextField;
-	Container content;
-	Customer e;
-
 	JPanel panel2;
 	JButton add;
+	JTextField customerIDTextField, passwordTextField;
+	Container content;
+	
 	static String pps;
 	static String firstName;
 	static String surname;
@@ -41,6 +41,7 @@ public class Menu extends JFrame implements IMenu {
 
 	public static void main(String[] args) {
 		Menu driver = new Menu();
+		readFromFile();
 		driver.menuStart();
 	}
 
@@ -195,15 +196,7 @@ public class Menu extends JFrame implements IMenu {
 						if (found == false) {
 							userNotFound(loop);
 						} else {
-							f.dispose();
-							f = new JFrame("Administrator Menu");
-							f.setSize(400, 300);
-							f.setLocation(200, 200);
-							f.addWindowListener(new WindowAdapter() {
-								public void windowClosing(WindowEvent we) {
-									System.exit(0);
-								}
-							});
+							f = frame("Administartor Menu");
 							f.setVisible(true);
 
 							JComboBox<String> box = new JComboBox<String>();
@@ -213,10 +206,8 @@ public class Menu extends JFrame implements IMenu {
 							}
 
 							box.getSelectedItem();
-
 							JPanel boxPanel = new JPanel();
 							boxPanel.add(box);
-
 							JPanel buttonPanel = new JPanel();
 							JButton continueButton = new JButton("Apply Charge");
 							JButton returnButton = new JButton("Return");
@@ -224,11 +215,10 @@ public class Menu extends JFrame implements IMenu {
 							buttonPanel.add(returnButton);
 							Container content = f.getContentPane();
 							content.setLayout(new GridLayout(2, 1));
-
 							content.add(boxPanel);
 							content.add(buttonPanel);
 
-							if (customer.getAccounts().isEmpty()) {
+							if (customer.getAccounts().isEmpty()) { //REFACTOR
 								JOptionPane.showMessageDialog(f,
 										"This customer has no accounts! \n The admin must add acounts to this customer.",
 										"Oops!", JOptionPane.INFORMATION_MESSAGE);
@@ -248,12 +238,12 @@ public class Menu extends JFrame implements IMenu {
 
 										if (acc instanceof CustomerDepositAccount) {
 
-											((CustomerDepositAccount) acc).getBalance(euro, f);
+											((CustomerDepositAccount) acc).displayBalance(euro, f);
 										}
 
 										if (acc instanceof CustomerCurrentAccount) {
 
-											((CustomerCurrentAccount) acc).getBalance(euro, f);
+											((CustomerCurrentAccount) acc).displayBalance(euro, f);
 										}
 
 										f.dispose();
@@ -303,27 +293,17 @@ public class Menu extends JFrame implements IMenu {
 						if (found == false) {
 							userNotFound(loop);
 						} else {
-							f.dispose();
-							f = new JFrame("Administrator Menu");
-							f.setSize(400, 300);
-							f.setLocation(200, 200);
-							f.addWindowListener(new WindowAdapter() {
-								public void windowClosing(WindowEvent we) {
-									System.exit(0);
-								}
-							});
+							f = frame("Administrator Menu");
 							f.setVisible(true);
 
 							JComboBox<String> box = new JComboBox<String>();
 							for (int i = 0; i < customer.getAccounts().size(); i++) {
-
 								box.addItem(customer.getAccounts().get(i).getNumber());
 							}
 
 							box.getSelectedItem();
 
 							JPanel boxPanel = new JPanel();
-
 							JLabel label = new JLabel("Select an account to apply interest to:");
 							boxPanel.add(label);
 							boxPanel.add(box);
@@ -338,7 +318,7 @@ public class Menu extends JFrame implements IMenu {
 							content.add(boxPanel);
 							content.add(buttonPanel);
 
-							if (customer.getAccounts().isEmpty()) {
+							if (customer.getAccounts().isEmpty()) { //REFACTOR
 								JOptionPane.showMessageDialog(f,
 										"This customer has no accounts! \n The admin must add acounts to this customer.",
 										"Oops!", JOptionPane.INFORMATION_MESSAGE);
@@ -423,6 +403,7 @@ public class Menu extends JFrame implements IMenu {
 							if (aCustomer.getCustomerID().equals(customerID)) {
 								found = true;
 								customer = aCustomer;
+								loop = false;
 							}
 						}
 
@@ -508,8 +489,8 @@ public class Menu extends JFrame implements IMenu {
 							customer.setPPS(pPSTextField.getText());
 							customer.setDOB(dOBTextField.getText());
 							customer.setCustomerID(customerIDTextField.getText());
-
 							customer.setPassword(passwordTextField.getText());
+							
 
 							JOptionPane.showMessageDialog(null, "Changes Saved.");
 						}
@@ -530,14 +511,7 @@ public class Menu extends JFrame implements IMenu {
 			public void actionPerformed(ActionEvent ae) {
 				f.dispose();
 
-				f = new JFrame("Summary of Transactions");
-				f.setSize(400, 700);
-				f.setLocation(200, 200);
-				f.addWindowListener(new WindowAdapter() {
-					public void windowClosing(WindowEvent we) {
-						System.exit(0);
-					}
-				});
+				f = frame("Summary of Transactions");
 				f.setVisible(true);
 
 				JLabel label1 = new JLabel("Summary of all transactions: ");
@@ -738,6 +712,7 @@ public class Menu extends JFrame implements IMenu {
 							if (aCustomer.getCustomerID().equals(customerID)) {
 								found = true;
 								customer = aCustomer;
+								loop = false;
 							}
 						}
 
@@ -928,14 +903,7 @@ public class Menu extends JFrame implements IMenu {
 
 					f.dispose();
 
-					f = new JFrame("Customer Menu");
-					f.setSize(400, 300);
-					f.setLocation(200, 200);
-					f.addWindowListener(new WindowAdapter() {
-						public void windowClosing(WindowEvent we) {
-							System.exit(0);
-						}
-					});
+					f = frame("Customer Menu");
 					f.setVisible(true);
 
 					JPanel statementPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -971,14 +939,7 @@ public class Menu extends JFrame implements IMenu {
 					statementButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent ae) {
 							f.dispose();
-							f = new JFrame("Customer Menu");
-							f.setSize(400, 600);
-							f.setLocation(200, 200);
-							f.addWindowListener(new WindowAdapter() {
-								public void windowClosing(WindowEvent we) {
-									System.exit(0);
-								}
-							});
+							f = frame("Customer Menu");
 							f.setVisible(true);
 
 							JLabel label1 = new JLabel("Summary of account transactions: ");
@@ -1177,7 +1138,7 @@ public class Menu extends JFrame implements IMenu {
 							}
 						}
 						try {
-							File readFile = new File("");
+							File readFile = new File("/Users/fionagill/Downloads/customer_login_information.txt");
 							Scanner scan = new Scanner(readFile);
 							while (scan.hasNextLine()) {
 								String data = scan.nextLine();
@@ -1195,11 +1156,11 @@ public class Menu extends JFrame implements IMenu {
 							Customer customer = new Customer(pps, surname, firstName, dob, customerID , password, accounts);
 							customerList.add(customer);
 							try {
-								FileWriter myWriter = new FileWriter("", true);
+								FileWriter myWriter = new FileWriter("/Users/fionagill/Downloads/customer_login_information.txt", true);
 								myWriter.write(customer.getCustomerID() + "\n");
 								myWriter.close();
-								FileWriter details = new FileWriter("", true);
-								details.write(customer.toString());
+								FileWriter details = new FileWriter("/Users/fionagill/Downloads/customer_login_information.txt", true);
+								details.write("\n" + customer.toString());
 								details.close();
 								System.out.println("Successfully wrote to the file.");
 
@@ -1290,7 +1251,7 @@ public class Menu extends JFrame implements IMenu {
 
 		// Read from file
 		try {
-			Scanner file = new Scanner(new File("C:/refactoring/customerInfo.txt"));
+			Scanner file = new Scanner(new File("/Users/fionagill/Downloads/customer_login_information.txt"));
 			while (file.hasNextLine()) {
 				String data = file.nextLine();
 				if (data.contains("PPS number")) {
@@ -1315,6 +1276,7 @@ public class Menu extends JFrame implements IMenu {
 
 				if (!pps.isEmpty() && !surname.isEmpty() && !firstName.isEmpty() && !dob.isEmpty()
 						&& !customerID.isEmpty() && !password.isEmpty()) {
+					
 					customerList.add(new Customer(pps, surname, firstName, dob, customerID, password, accounts));
 
 					pps = "";
@@ -1325,7 +1287,7 @@ public class Menu extends JFrame implements IMenu {
 					password = "";
 
 				} else {
-					// do nothing
+					
 				}
 
 			}
@@ -1337,24 +1299,13 @@ public class Menu extends JFrame implements IMenu {
 	}
 
 	public void loginCustomer() {
-		boolean loop = true, loop2 = true;
-		boolean cont = false;
-		boolean found = false;
+		boolean loop = true;
 		Customer customer = null;
 		while (loop) {
 			Object customerID = JOptionPane.showInputDialog(f, "Enter Customer ID:");
+			
 
-			for (Customer aCustomer : customerList) {
-
-				if (aCustomer.getCustomerID().equals(customerID))// search customer list for matching
-					// customer ID
-				{
-					found = true;
-					customer = aCustomer;
-				}
-			}
-
-			if (found == false) {
+			if (searchCustomer(customer, customerID, f) == false) {
 				int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?",
 						JOptionPane.YES_NO_OPTION);
 				if (reply == JOptionPane.YES_OPTION) {
@@ -1362,7 +1313,6 @@ public class Menu extends JFrame implements IMenu {
 				} else if (reply == JOptionPane.NO_OPTION) {
 					f.dispose();
 					loop = false;
-					loop2 = false;
 					menuStart();
 				}
 			} else {
@@ -1371,31 +1321,6 @@ public class Menu extends JFrame implements IMenu {
 
 		}
 
-		while (loop2) {
-			Object customerPassword = JOptionPane.showInputDialog(f, "Enter Customer Password;");
-
-			if (!customer.getPassword().equals(customerPassword))// check if customer password is correct
-			{
-				int reply = JOptionPane.showConfirmDialog(null, null, "Incorrect password. Try again?",
-						JOptionPane.YES_NO_OPTION);
-				if (reply == JOptionPane.YES_OPTION) {
-
-				} else if (reply == JOptionPane.NO_OPTION) {
-					f.dispose();
-					loop2 = false;
-					menuStart();
-				}
-			} else {
-				loop2 = false;
-				cont = true;
-			}
-		}
-
-		if (cont) {
-			f.dispose();
-			loop = false;
-			customer(customer);
-		}
 
 	}
 
@@ -1403,8 +1328,8 @@ public class Menu extends JFrame implements IMenu {
 	public JFrame frame(String type) {
 		// TODO Auto-generated method stub
 		JFrame f = new JFrame(type);
-		f.setSize(400, 300);
-		f.setLocation(200, 200);
+		f.setSize(600, 400);
+		f.setLocation(300, 300);
 		f.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent we) {
 				System.exit(0);
@@ -1526,6 +1451,42 @@ public class Menu extends JFrame implements IMenu {
 	}
 
 
+	public boolean searchCustomer(Customer customer, Object customerID, JFrame f) {
+		boolean cont = false;
+		boolean found = false;
+		for (Customer aCustomer : customerList) {
+
+			if (aCustomer.getCustomerID().equals(customerID))// search customer list for matching customer ID
+			{
+				found = true;
+				customer = aCustomer;
+				Object customerPassword = JOptionPane.showInputDialog(f, "Enter Customer Password;");
+
+				if (!customer.getPassword().equals(customerPassword))// check if customer password is correct
+				{
+					int reply = JOptionPane.showConfirmDialog(null, null, "Incorrect password. Try again?",
+							JOptionPane.YES_NO_OPTION);
+					if (reply == JOptionPane.YES_OPTION) {
+
+					} else if (reply == JOptionPane.NO_OPTION) {
+						f.dispose();
+						
+						menuStart();
+					}
+				} else {
+					
+					cont = true;
+				}
+				
+				if (cont) {
+					f.dispose();
+					
+					customer(customer);
+				}
+			}
+		}
+		return found;
+	}
 
 
 }

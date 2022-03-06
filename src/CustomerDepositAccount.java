@@ -29,7 +29,7 @@ public void setInterestRate(double interestRate)
 	this.interestRate = interestRate;
 }
 
-public void getBalance(String euro, JFrame f) {
+public void displayBalance(String euro, JFrame f) {
 	JOptionPane.showMessageDialog(f,
 			"25" + euro + " deposit account fee aplied.", "",
 			JOptionPane.INFORMATION_MESSAGE);

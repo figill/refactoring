@@ -30,7 +30,7 @@ public void setAtm(ATMCard atm)
 	this.atm = atm;
 }
 
-public void getBalance(String euro, JFrame f) {
+public void displayBalance(String euro, JFrame f) {
 	JOptionPane.showMessageDialog(f,
 			"15" + euro + " current account fee aplied.", "",
 			JOptionPane.INFORMATION_MESSAGE);
