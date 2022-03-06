@@ -44,5 +44,6 @@ public class CustomerAccount {
 	public void setTransactionList(ArrayList<AccountTransaction> transactionList) {
 		this.transactionList = transactionList;
 	}
+	
 
 }
