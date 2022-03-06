@@ -20,8 +20,8 @@ public class Menu extends JFrame implements IMenu {
 	private static ArrayList<Customer> customerList = new ArrayList<Customer>();
 	private int position = 0;
 	private Customer customer = null;
-	private CustomerAccount acc = new CustomerAccount();
-	Customer e;
+	private CustomerAccount customerAccount = new CustomerAccount();
+	Customer cust;
 	
 	JFrame f, f1;
 	JLabel firstNameLabel, surnameLabel, pPPSLabel, dOBLabel;
@@ -228,7 +228,7 @@ public class Menu extends JFrame implements IMenu {
 
 								for (int i = 0; i < customer.getAccounts().size(); i++) {
 									if (customer.getAccounts().get(i).getNumber() == box.getSelectedItem()) {
-										acc = customer.getAccounts().get(i);
+										customerAccount = customer.getAccounts().get(i);
 									}
 								}
 
@@ -236,14 +236,14 @@ public class Menu extends JFrame implements IMenu {
 									public void actionPerformed(ActionEvent ae) {
 										String euro = "\u20ac";
 
-										if (acc instanceof CustomerDepositAccount) {
+										if (customerAccount instanceof CustomerDepositAccount) {
 
-											((CustomerDepositAccount) acc).displayBalance(euro, f);
+											((CustomerDepositAccount) customerAccount).displayBalance(euro, f);
 										}
 
-										if (acc instanceof CustomerCurrentAccount) {
+										if (customerAccount instanceof CustomerCurrentAccount) {
 
-											((CustomerCurrentAccount) acc).displayBalance(euro, f);
+											((CustomerCurrentAccount) customerAccount).displayBalance(euro, f);
 										}
 
 										f.dispose();
@@ -328,7 +328,7 @@ public class Menu extends JFrame implements IMenu {
 
 								for (int i = 0; i < customer.getAccounts().size(); i++) {
 									if (customer.getAccounts().get(i).getNumber() == box.getSelectedItem()) {
-										acc = customer.getAccounts().get(i);
+										customerAccount = customer.getAccounts().get(i);
 									}
 								}
 
@@ -347,12 +347,12 @@ public class Menu extends JFrame implements IMenu {
 												interest = Double.parseDouble(interestString);
 												loop = false;
 
-												acc.setBalance(
-														acc.getBalance() + (acc.getBalance() * (interest / 100)));
+												customerAccount.setBalance(
+														customerAccount.getBalance() + (customerAccount.getBalance() * (interest / 100)));
 
 												JOptionPane.showMessageDialog(f,
 														interest + "% interest applied. \n new balance = "
-																+ acc.getBalance() + euro,
+																+ customerAccount.getBalance() + euro,
 																"Success!", JOptionPane.INFORMATION_MESSAGE);
 											}
 
@@ -536,10 +536,10 @@ public class Menu extends JFrame implements IMenu {
 					// transaction.
 				{
 					for (int b = 0; b < customerList.get(a).getAccounts().size(); b++) {
-						acc = customerList.get(a).getAccounts().get(b);
+						customerAccount = customerList.get(a).getAccounts().get(b);
 						for (int c = 0; c < customerList.get(a).getAccounts().get(b).getTransactionList().size(); c++) {
 
-							textArea.append(acc.getTransactionList().get(c).toString());
+							textArea.append(customerAccount.getTransactionList().get(c).toString());
 
 						}
 					}
@@ -849,12 +849,12 @@ public class Menu extends JFrame implements IMenu {
 		});
 	}
 
-	public void customer(Customer e1) {
-		e = e1;
+	public void customer(Customer cust1) {
+		cust = cust1;
 		f = frame("Customer Menu");
 		f.setVisible(true);
 
-		if (e.getAccounts().size() == 0) {
+		if (cust.getAccounts().size() == 0) {
 			JOptionPane.showMessageDialog(f,
 					"This customer does not have any accounts yet. \n An admin must create an account for this customer \n for them to be able to use customer functionality. ",
 					"Oops!", JOptionPane.INFORMATION_MESSAGE);
@@ -874,13 +874,13 @@ public class Menu extends JFrame implements IMenu {
 			buttonPanel.add(continueButton);
 
 			JComboBox<String> box = new JComboBox<String>();
-			for (int i = 0; i < e.getAccounts().size(); i++) {
-				box.addItem(e.getAccounts().get(i).getNumber());
+			for (int i = 0; i < cust.getAccounts().size(); i++) {
+				box.addItem(cust.getAccounts().get(i).getNumber());
 			}
 
-			for (int i = 0; i < e.getAccounts().size(); i++) {
-				if (e.getAccounts().get(i).getNumber() == box.getSelectedItem()) {
-					acc = e.getAccounts().get(i);
+			for (int i = 0; i < cust.getAccounts().size(); i++) {
+				if (cust.getAccounts().get(i).getNumber() == box.getSelectedItem()) {
+					customerAccount = cust.getAccounts().get(i);
 				}
 			}
 
@@ -960,8 +960,8 @@ public class Menu extends JFrame implements IMenu {
 							JScrollPane scrollPane = new JScrollPane(textArea);
 							textPanel.add(scrollPane);
 
-							for (int i = 0; i < acc.getTransactionList().size(); i++) {
-								textArea.append(acc.getTransactionList().get(i).toString());
+							for (int i = 0; i < customerAccount.getTransactionList().size(); i++) {
+								textArea.append(customerAccount.getTransactionList().get(i).toString());
 
 							}
 
@@ -977,7 +977,7 @@ public class Menu extends JFrame implements IMenu {
 							returnButton.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent ae) {
 									f.dispose();
-									customer(e);
+									customer(cust);
 								}
 							});
 						}
@@ -989,7 +989,7 @@ public class Menu extends JFrame implements IMenu {
 							boolean on = true;
 							double balance = 0;
 
-							if (acc instanceof CustomerCurrentAccount) {
+							if (customerAccount instanceof CustomerCurrentAccount) {
 								int count = 3;
 								checkPin(count);
 
@@ -1020,7 +1020,7 @@ public class Menu extends JFrame implements IMenu {
 							boolean on = true;
 							double withdraw = 0;
 
-							if (acc instanceof CustomerCurrentAccount) {
+							if (customerAccount instanceof CustomerCurrentAccount) {
 								int count = 3;
 								checkPin(count);
 							}
@@ -1041,7 +1041,7 @@ public class Menu extends JFrame implements IMenu {
 											"Oops!", JOptionPane.INFORMATION_MESSAGE);
 									withdraw = 0;
 								}
-								if (withdraw > acc.getBalance()) {
+								if (withdraw > customerAccount.getBalance()) {
 									JOptionPane.showMessageDialog(f, "Insufficient funds.", "Oops!",
 											JOptionPane.INFORMATION_MESSAGE);
 									withdraw = 0;
@@ -1379,24 +1379,24 @@ public class Menu extends JFrame implements IMenu {
 		// TODO Auto-generated method stub
 		if (i == 0) {
 			String euro = "\u20ac";
-			acc.setBalance(acc.getBalance() + a);
+			customerAccount.setBalance(customerAccount.getBalance() + a);
 			Date date = new Date();
 			String date2 = date.toString();
 			String type = "Lodgement";
 			double amount = a;
 
 			AccountTransaction transaction = new AccountTransaction(date2, type, amount);
-			acc.getTransactionList().add(transaction);
+			customerAccount.getTransactionList().add(transaction);
 
 			JOptionPane.showMessageDialog(f, a + euro + " added do you account!", "Lodgement",
 					JOptionPane.INFORMATION_MESSAGE);
-			JOptionPane.showMessageDialog(f, "New balance = " + acc.getBalance() + euro, "Lodgement",
+			JOptionPane.showMessageDialog(f, "New balance = " + customerAccount.getBalance() + euro, "Lodgement",
 					JOptionPane.INFORMATION_MESSAGE);
 
 		} else {
 
 			String euro = "\u20ac";
-			acc.setBalance(acc.getBalance() - a);
+			customerAccount.setBalance(customerAccount.getBalance() - a);
 			Date date = new Date();
 			String date2 = date.toString();
 
@@ -1404,10 +1404,10 @@ public class Menu extends JFrame implements IMenu {
 			double amount = a;
 
 			AccountTransaction transaction = new AccountTransaction(date2, type, amount);
-			acc.getTransactionList().add(transaction);
+			customerAccount.getTransactionList().add(transaction);
 
 			JOptionPane.showMessageDialog(f, a + euro + " withdrawn.", "Withdraw", JOptionPane.INFORMATION_MESSAGE);
-			JOptionPane.showMessageDialog(f, "New balance = " + acc.getBalance() + euro, "Withdraw",
+			JOptionPane.showMessageDialog(f, "New balance = " + customerAccount.getBalance() + euro, "Withdraw",
 					JOptionPane.INFORMATION_MESSAGE);
 
 		}
@@ -1417,7 +1417,7 @@ public class Menu extends JFrame implements IMenu {
 	@Override
 	public void checkPin(int count) {
 		// TODO Auto-generated method stub
-		int checkPin = ((CustomerCurrentAccount) acc).getAtm().getPin();
+		int checkPin = ((CustomerCurrentAccount) customerAccount).getAtm().getPin();
 		boolean loop = true;
 		boolean on = true;
 
@@ -1425,8 +1425,8 @@ public class Menu extends JFrame implements IMenu {
 			if (count == 0) {
 				JOptionPane.showMessageDialog(f, "Pin entered incorrectly 3 times. ATM card locked.", "Pin",
 						JOptionPane.INFORMATION_MESSAGE);
-				((CustomerCurrentAccount) acc).getAtm().setValid(false);
-				customer(e);
+				((CustomerCurrentAccount) customerAccount).getAtm().setValid(false);
+				customer(cust);
 				loop = false;
 				on = false;
 			}
